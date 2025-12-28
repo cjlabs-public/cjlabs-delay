@@ -25,7 +25,7 @@ CREATE TABLE `delay_job_task`
     `create_date`         BIGINT                                                                            NOT NULL COMMENT '创建时间',
     `update_user`         VARCHAR(64)                                                                       NULL COMMENT '更新用户',
     `update_date`         BIGINT                                                                            NOT NULL COMMENT '更新时间',
-    `remark`              VARCHAR(500)                                                                      NULL COMMENT '备注',
+    `trace_id`            VARCHAR(64)                                                                       NULL COMMENT '追踪ID',
 
     PRIMARY KEY (`id`),
     INDEX `idx_del_flag` (`del_flag`),
@@ -61,7 +61,7 @@ CREATE TABLE `delay_job_execute_log`
     `create_date`    BIGINT                                                       NOT NULL COMMENT '创建时间',
     `update_user`    VARCHAR(64)                                                  NULL COMMENT '更新用户',
     `update_date`    BIGINT                                                       NOT NULL COMMENT '更新时间',
-    `remark`         VARCHAR(500)                                                 NULL COMMENT '备注',
+    `trace_id`       VARCHAR(64)                                                  NULL COMMENT '追踪ID',
 
     PRIMARY KEY (`id`),
     INDEX `idx_task_id` (`task_id`),
