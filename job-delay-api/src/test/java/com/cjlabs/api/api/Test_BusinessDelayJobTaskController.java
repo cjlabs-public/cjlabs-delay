@@ -2,6 +2,7 @@ package com.cjlabs.api.api;
 
 import com.cjlabs.api.business.controller.DelayJobTaskApiService;
 import com.cjlabs.api.business.enums.ExecuteTypeEnum;
+import com.cjlabs.api.business.enums.HttpMethodEnum;
 import com.cjlabs.api.business.enums.TaskTypeEnum;
 import com.cjlabs.api.business.requpdate.DelayJobTaskReqSave;
 import com.cjlabs.api.business.resp.DelayJobTaskResp;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
 
 /**
  * 延迟任务 API 控制器测试
@@ -36,6 +38,10 @@ public class Test_BusinessDelayJobTaskController {
         reqSave.setTaskType(TaskTypeEnum.HTTP);
         reqSave.setExecuteType(ExecuteTypeEnum.SYNC);
         reqSave.setMsgBody("{\"url\": \"http://example.com\"}");
+
+        reqSave.setHttpUrl("http://example.com");
+        reqSave.setHttpHeaders("");
+        reqSave.setHttpMethod(HttpMethodEnum.POST);
 
         FmkRequest<DelayJobTaskReqSave> fmkRequest = new FmkRequest<>();
         fmkRequest.setRequest(reqSave);

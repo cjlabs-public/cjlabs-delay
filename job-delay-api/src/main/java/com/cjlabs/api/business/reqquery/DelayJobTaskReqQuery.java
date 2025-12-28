@@ -1,7 +1,7 @@
 package com.cjlabs.api.business.reqquery;
 
-import com.cjlabs.api.business.enums.ExecuteStatusEnum;
 import com.cjlabs.api.business.enums.ExecuteTypeEnum;
+import com.cjlabs.api.business.enums.HttpMethodEnum;
 import com.cjlabs.api.business.enums.RetryStrategyEnum;
 import com.cjlabs.api.business.enums.TaskStatusEnum;
 import com.cjlabs.api.business.enums.TaskTypeEnum;
@@ -70,7 +70,7 @@ public class DelayJobTaskReqQuery {
     /**
      * HTTP方法：GET,POST
      */
-    private String httpMethod;
+    private HttpMethodEnum httpMethod;
 
     /**
      * HTTP请求头（JSON格式）

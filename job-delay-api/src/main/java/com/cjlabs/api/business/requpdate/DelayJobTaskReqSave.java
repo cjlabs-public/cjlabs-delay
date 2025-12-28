@@ -1,9 +1,11 @@
 package com.cjlabs.api.business.requpdate;
 
 import com.cjlabs.api.business.enums.ExecuteTypeEnum;
+import com.cjlabs.api.business.enums.HttpMethodEnum;
 import com.cjlabs.api.business.enums.RetryStrategyEnum;
 import com.cjlabs.api.business.enums.TaskStatusEnum;
 import com.cjlabs.api.business.enums.TaskTypeEnum;
+
 import lombok.Data;
 
 import java.time.Instant;
@@ -69,7 +71,7 @@ public class DelayJobTaskReqSave {
     /**
      * HTTP方法：GET,POST
      */
-    private String httpMethod;
+    private HttpMethodEnum httpMethod;
 
     /**
      * HTTP请求头（JSON格式）
