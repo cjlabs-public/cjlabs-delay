@@ -16,18 +16,23 @@
         <result property="msgBody" column="msg_body"/>
         <result property="executeTime" column="execute_time"/>
         <result property="taskStatus" column="task_status"/>
+        <result property="httpUrl" column="http_url"/>
+        <result property="httpMethod" column="http_method"/>
+        <result property="httpHeaders" column="http_headers"/>
+        <result property="mqTopic" column="mq_topic"/>
+        <result property="mqKey" column="mq_key"/>
+        <result property="mqPartition" column="mq_partition"/>
+        <result property="mqHeaders" column="mq_headers"/>
         <result property="delFlag" column="del_flag"/>
         <result property="createUser" column="create_user"/>
         <result property="createDate" column="create_date"/>
         <result property="updateUser" column="update_user"/>
         <result property="updateDate" column="update_date"/>
-        <result property="remark" column="remark"/>
 
     </resultMap>
 
     <sql id="Base_Column_List">
-        id
-        , task_type, execute_type, retry_strategy, retry_delay_seconds, retry_count, max_retry_count, msg_body, execute_time, task_status, del_flag, create_user, create_date, update_user, update_date, remark
+        id, task_type, execute_type, retry_strategy, retry_delay_seconds, retry_count, max_retry_count, msg_body, execute_time, task_status, http_url, http_method, http_headers, mq_topic, mq_key, mq_partition, mq_headers, del_flag, create_user, create_date, update_user, update_date, trace_id
     </sql>
 
     <sql id="Base_Table">

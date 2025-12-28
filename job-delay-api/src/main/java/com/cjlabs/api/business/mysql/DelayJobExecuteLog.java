@@ -61,9 +61,4 @@ public class DelayJobExecuteLog extends FmkBaseEntity {
      */
     private Long xxlJobLogId;
 
-    /**
-     * 备注
-     */
-    private String remark;
-
 }

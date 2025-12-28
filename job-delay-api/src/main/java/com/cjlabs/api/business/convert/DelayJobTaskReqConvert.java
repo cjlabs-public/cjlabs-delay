@@ -24,7 +24,14 @@ public class DelayJobTaskReqConvert {
         delayJobTask.setMsgBody(input.getMsgBody());
         delayJobTask.setExecuteTime(input.getExecuteTime());
         delayJobTask.setTaskStatus(input.getTaskStatus());
-        delayJobTask.setRemark(input.getRemark());
+
+        delayJobTask.setHttpUrl(input.getHttpUrl());
+        delayJobTask.setHttpMethod(input.getHttpMethod());
+        delayJobTask.setHttpHeaders(input.getHttpHeaders());
+        delayJobTask.setMqTopic(input.getMqTopic());
+        delayJobTask.setMqKey(input.getMqKey());
+        delayJobTask.setMqPartition(input.getMqPartition());
+        delayJobTask.setMqHeaders(input.getMqHeaders());
 
         return delayJobTask;
     }
@@ -45,7 +52,14 @@ public class DelayJobTaskReqConvert {
         delayJobTask.setMsgBody(input.getMsgBody());
         delayJobTask.setExecuteTime(input.getExecuteTime());
         delayJobTask.setTaskStatus(input.getTaskStatus());
-        delayJobTask.setRemark(input.getRemark());
+
+        delayJobTask.setHttpUrl(input.getHttpUrl());
+        delayJobTask.setHttpMethod(input.getHttpMethod());
+        delayJobTask.setHttpHeaders(input.getHttpHeaders());
+        delayJobTask.setMqTopic(input.getMqTopic());
+        delayJobTask.setMqKey(input.getMqKey());
+        delayJobTask.setMqPartition(input.getMqPartition());
+        delayJobTask.setMqHeaders(input.getMqHeaders());
 
         return delayJobTask;
     }
@@ -65,7 +79,14 @@ public class DelayJobTaskReqConvert {
         delayJobTask.setMsgBody(input.getMsgBody());
         delayJobTask.setExecuteTime(input.getExecuteTime());
         delayJobTask.setTaskStatus(input.getTaskStatus());
-        delayJobTask.setRemark(input.getRemark());
+
+        delayJobTask.setHttpUrl(input.getHttpUrl());
+        delayJobTask.setHttpMethod(input.getHttpMethod());
+        delayJobTask.setHttpHeaders(input.getHttpHeaders());
+        delayJobTask.setMqTopic(input.getMqTopic());
+        delayJobTask.setMqKey(input.getMqKey());
+        delayJobTask.setMqPartition(input.getMqPartition());
+        delayJobTask.setMqHeaders(input.getMqHeaders());
 
         return delayJobTask;
     }

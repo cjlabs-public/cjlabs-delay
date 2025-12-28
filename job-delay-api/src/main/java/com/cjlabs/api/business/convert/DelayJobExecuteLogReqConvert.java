@@ -23,7 +23,6 @@ public class DelayJobExecuteLogReqConvert {
         delayJobExecuteLog.setExecuteResult(input.getExecuteResult());
         delayJobExecuteLog.setHandlerIp(input.getHandlerIp());
         delayJobExecuteLog.setXxlJobLogId(input.getXxlJobLogId());
-        delayJobExecuteLog.setRemark(input.getRemark());
 
         return delayJobExecuteLog;
     }
@@ -43,7 +42,6 @@ public class DelayJobExecuteLogReqConvert {
         delayJobExecuteLog.setExecuteResult(input.getExecuteResult());
         delayJobExecuteLog.setHandlerIp(input.getHandlerIp());
         delayJobExecuteLog.setXxlJobLogId(input.getXxlJobLogId());
-        delayJobExecuteLog.setRemark(input.getRemark());
 
         return delayJobExecuteLog;
     }
@@ -62,7 +60,6 @@ public class DelayJobExecuteLogReqConvert {
         delayJobExecuteLog.setExecuteResult(input.getExecuteResult());
         delayJobExecuteLog.setHandlerIp(input.getHandlerIp());
         delayJobExecuteLog.setXxlJobLogId(input.getXxlJobLogId());
-        delayJobExecuteLog.setRemark(input.getRemark());
 
         return delayJobExecuteLog;
     }

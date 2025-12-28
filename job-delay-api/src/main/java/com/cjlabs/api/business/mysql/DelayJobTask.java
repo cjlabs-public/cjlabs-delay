@@ -70,9 +70,41 @@ public class DelayJobTask extends FmkBaseEntity {
      */
     private TaskStatusEnum taskStatus;
 
+
     /**
-     * 备注
+     * HTTP请求URL
      */
-    private String remark;
+    private String httpUrl;
+
+    /**
+     * HTTP方法：GET,POST
+     */
+    private String httpMethod;
+
+    /**
+     * HTTP请求头（JSON格式）
+     */
+    private String httpHeaders;
+
+    /**
+     * Kafka Topic
+     */
+    private String mqTopic;
+
+    /**
+     * Kafka消息Key（用于分区和消息去重）
+     */
+    private String mqKey;
+
+    /**
+     * Kafka分区号
+     */
+    private String mqPartition;
+
+    /**
+     * Kafka消息头（JSON格式）
+     */
+    private String mqHeaders;
+
 
 }

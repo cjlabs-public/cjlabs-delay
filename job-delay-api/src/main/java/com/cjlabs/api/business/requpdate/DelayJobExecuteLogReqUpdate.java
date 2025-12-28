@@ -58,9 +58,5 @@ public class DelayJobExecuteLogReqUpdate {
      */
     private Long xxlJobLogId;
 
-    /**
-     * 备注
-     */
-    private String remark;
 
 }

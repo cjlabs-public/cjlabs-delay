@@ -19,7 +19,7 @@ create table delay_job_task
     task_status         enum ('PENDING', 'PROCESSING', 'SUCCESS', 'FAILED', 'CANCELED') default 'PENDING' not null comment '任务状态',
 
     -- ===== HTTP 任务专用字段 =====
-    http_url            varchar(512)                                                                      null comment 'HTTP请求URL',
+    http_url            varchar(128)                                                                      null comment 'HTTP请求URL',
     http_method         enum ('POST', 'GET')                                            default 'POST'    null comment 'HTTP方法：GET,POST',
     http_headers        varchar(512)                                                                      null comment 'HTTP请求头（JSON格式）',
 

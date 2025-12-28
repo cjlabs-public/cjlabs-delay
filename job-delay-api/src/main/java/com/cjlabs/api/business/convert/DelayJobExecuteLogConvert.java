@@ -31,7 +31,6 @@ public class DelayJobExecuteLogConvert {
         delayJobExecuteLogResp.setCreateDate(input.getCreateDate());
         delayJobExecuteLogResp.setUpdateUser(input.getUpdateUser());
         delayJobExecuteLogResp.setUpdateDate(input.getUpdateDate());
-        delayJobExecuteLogResp.setRemark(input.getRemark());
 
         return delayJobExecuteLogResp;
     }

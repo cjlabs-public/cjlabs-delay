@@ -79,9 +79,5 @@ public class DelayJobExecuteLogResp {
      */
     private Instant updateDate;
 
-    /**
-     * 备注
-     */
-    private String remark;
 
 }

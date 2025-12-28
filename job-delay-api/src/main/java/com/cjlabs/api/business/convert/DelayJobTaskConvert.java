@@ -28,11 +28,18 @@ public class DelayJobTaskConvert {
         delayJobTaskResp.setMsgBody(input.getMsgBody());
         delayJobTaskResp.setExecuteTime(input.getExecuteTime());
         delayJobTaskResp.setTaskStatus(input.getTaskStatus());
+
+        delayJobTaskResp.setHttpUrl(input.getHttpUrl());
+        delayJobTaskResp.setHttpMethod(input.getHttpMethod());
+        delayJobTaskResp.setHttpHeaders(input.getHttpHeaders());
+        delayJobTaskResp.setMqTopic(input.getMqTopic());
+        delayJobTaskResp.setMqKey(input.getMqKey());
+        delayJobTaskResp.setMqPartition(input.getMqPartition());
+        delayJobTaskResp.setMqHeaders(input.getMqHeaders());
         delayJobTaskResp.setCreateUser(input.getCreateUser());
         delayJobTaskResp.setCreateDate(input.getCreateDate());
         delayJobTaskResp.setUpdateUser(input.getUpdateUser());
         delayJobTaskResp.setUpdateDate(input.getUpdateDate());
-        delayJobTaskResp.setRemark(input.getRemark());
 
         return delayJobTaskResp;
     }
