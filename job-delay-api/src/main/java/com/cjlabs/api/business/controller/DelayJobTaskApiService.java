@@ -1,12 +1,16 @@
 package com.cjlabs.api.business.controller;
 
 import com.cjlabs.api.business.convert.DelayJobTaskConvert;
+import com.cjlabs.api.business.enums.RetryStrategyEnum;
+import com.cjlabs.api.business.enums.TaskStatusEnum;
+import com.cjlabs.api.business.enums.TaskTypeEnum;
 import com.cjlabs.api.business.mysql.DelayJobTask;
 import com.cjlabs.api.business.reqquery.DelayJobTaskReqQuery;
 import com.cjlabs.api.business.requpdate.DelayJobTaskReqSave;
 import com.cjlabs.api.business.requpdate.DelayJobTaskReqUpdate;
 import com.cjlabs.api.business.resp.DelayJobTaskResp;
 import com.cjlabs.api.business.service.DelayJobTaskService;
+import com.cjlabs.core.time.FmkInstantUtil;
 import com.cjlabs.db.domain.FmkPageResponse;
 import com.cjlabs.db.domain.FmkRequest;
 import com.cjlabs.web.check.FmkCheckUtil;
@@ -17,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,6 +56,21 @@ public class DelayJobTaskApiService {
             log.info("DelayJobTaskApiService|save|request is null");
             return null;
         }
+
+        Instant executeTime = request.getExecuteTime();
+        if (Objects.isNull(executeTime)) {
+            log.info("DelayJobTaskApiService|save|executeTime is null");
+            Instant now = FmkInstantUtil.now();
+            request.setExecuteTime(now);
+        }
+
+        request.setTaskType(TaskTypeEnum.HTTP);
+        request.setRetryStrategy(RetryStrategyEnum.LINEAR);
+        // 3s
+        request.setRetryDelaySeconds(3);
+        request.setRetryCount(0);
+        request.setMaxRetryCount(5);
+        request.setTaskStatus(TaskStatusEnum.PENDING);
 
         DelayJobTask delayJobTask = delayJobTaskService.save(request);
         return DelayJobTaskConvert.toResp(delayJobTask);

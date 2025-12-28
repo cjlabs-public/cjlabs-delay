@@ -17,11 +17,6 @@ import java.time.Instant;
 public class DelayJobTaskReqSave {
 
     /**
-     * ID（更新时必填）
-     */
-    private Long id;
-
-    /**
      * 任务类型：HTTP-HTTP调用，
      */
     private TaskTypeEnum taskType;
