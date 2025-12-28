@@ -2,7 +2,6 @@ package com.cjlabs.api.config.job;
 
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-@RequiredArgsConstructor
 public class XxlJobConfig {
     @Autowired
     private XxlJobProperties xxlJobProperties;

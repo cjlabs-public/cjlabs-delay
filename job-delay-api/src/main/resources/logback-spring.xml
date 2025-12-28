@@ -76,9 +76,9 @@
     </root>
 
     <!-- ===================== dev 环境单独包日志级别 ===================== -->
-    <springProfile name="dev">
-        <logger name="com.cjlabs.web.controller" level="DEBUG"/>
-        <logger name="com.cjlabs.web.service" level="DEBUG"/>
-    </springProfile>
+<!--    <springProfile name="dev">-->
+<!--        <logger name="com.cjlabs.web.controller" level="DEBUG"/>-->
+<!--        <logger name="com.cjlabs.web.service" level="DEBUG"/>-->
+<!--    </springProfile>-->
 
 </configuration>
