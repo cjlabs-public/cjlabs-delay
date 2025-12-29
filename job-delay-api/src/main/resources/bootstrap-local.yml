@@ -26,8 +26,15 @@ spring:
     import:
       - nacos:job-delay-scheduler.yaml?group=DEFAULT_GROUP
 
-# logging:
-#   level:
+logging:
+  level:
 #     com.alibaba.nacos: DEBUG
 #     com.alibaba.cloud: DEBUG
     # org.springframework.cloud: DEBUG
+# 日志配置
+    # 打印 MyBatis Mapper 的 SQL（如果使用 Slf4jImpl）
+    com.cjlabs.api: DEBUG
+    # 打印 MyBatis 内部日志
+    org.apache.ibatis: DEBUG
+    # 打印 SQL 参数和结果
+    com.baomidou.mybatisplus: DEBUG

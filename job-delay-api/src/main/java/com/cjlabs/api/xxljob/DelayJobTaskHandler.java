@@ -128,8 +128,14 @@ public class DelayJobTaskHandler extends AbstractXxlJobHandler {
             log.debug("任务 {} 处理成功，结果: {}", taskId, result);
 
         } catch (Exception e) {
-            // 处理失败：检查是否需要重试
-            handleTaskFailure(task, e);
+            // 判断异常是否可重试
+            if (isRetryableException(e)) {
+                // 可重试的异常：执行重试逻辑
+                handleTaskRetry(task, e);
+            } else {
+                // 不可重试的异常：直接标记为失败
+                handleTaskFailureDirectly(task, e);
+            }
         }
     }
 
@@ -145,10 +151,11 @@ public class DelayJobTaskHandler extends AbstractXxlJobHandler {
         };
     }
 
+
     /**
-     * 处理任务失败（包括重试逻辑）
+     * 处理任务重试（异常可重试）
      */
-    private void handleTaskFailure(DelayJobTask task, Exception e) {
+    private void handleTaskRetry(DelayJobTask task, Exception e) {
         long taskId = task.getId();
         int currentRetry = task.getRetryCount();
         int maxRetry = task.getMaxRetryCount();
@@ -161,14 +168,99 @@ public class DelayJobTaskHandler extends AbstractXxlJobHandler {
             delayJobTaskService.updateTaskForRetry(taskId, nextRetry, nextExecuteTime);
 
             long delaySeconds = (nextExecuteTime.toEpochMilli() - System.currentTimeMillis()) / 1000;
-            log.info("任务 {} 将在 {} 秒后重试（{}/{}），错误: {}",
-                    taskId, delaySeconds, nextRetry, maxRetry, e.getMessage());
+            log.warn("任务 {} 将在 {} 秒后重试（{}/{}），异常类型: {}，错误信息: {}",
+                    taskId, delaySeconds, nextRetry, maxRetry,
+                    e.getClass().getSimpleName(), e.getMessage());
         } else {
             // 达到最大重试次数，标记为失败
             delayJobTaskService.updateTaskStatusToFailed(taskId);
-            log.error("任务 {} 达到最大重试次数（{}），已标记为失败，最后错误: {}",
-                    taskId, maxRetry, e.getMessage());
+            log.error("任务 {} 达到最大重试次数（{}），已标记为失败，最后异常: {} - {}",
+                    taskId, maxRetry, e.getClass().getSimpleName(), e.getMessage(), e);
         }
+    }
+
+    /**
+     * 处理任务失败（异常不可重试，直接失败）
+     */
+    private void handleTaskFailureDirectly(DelayJobTask task, Exception e) {
+        long taskId = task.getId();
+
+        // 直接标记为失败，不进行重试
+        delayJobTaskService.updateTaskStatusToFailed(taskId);
+
+        log.error("任务 {} 执行失败，异常不可重试，直接标记为失败。异常类型: {}，错误信息: {}",
+                taskId, e.getClass().getSimpleName(), e.getMessage(), e);
+    }
+
+
+    /**
+     * 判断异常是否可重试
+     * <p>
+     * 可重试异常：
+     * - 网络超时异常（SocketTimeoutException）
+     * - 连接异常（ConnectException）
+     * - 临时服务不可用（HTTP 503）
+     * - I/O 异常
+     * <p>
+     * 不可重试异常：
+     * - 参数验证异常（IllegalArgumentException）
+     * - 业务逻辑异常（业务自定义异常）
+     * - HTTP 400/401/403/404 等客户端错误
+     * - JSON 解析异常
+     */
+    private boolean isRetryableException(Exception e) {
+        // 1. 网络相关异常（可重试）
+        if (e instanceof java.net.SocketException ||
+                e instanceof java.io.InterruptedIOException) {
+            log.warn("检测到可重试的网络异常: {}", e.getClass().getSimpleName());
+            return true;
+        }
+
+        // 2. I/O 异常（可重试）
+        if (e instanceof java.io.IOException &&
+                !(e instanceof java.io.FileNotFoundException)) {
+            log.warn("检测到可重试的 I/O 异常: {}", e.getMessage());
+            return true;
+        }
+
+        // 3. 检查异常链中是否包含不可重试的异常
+        Throwable cause = e.getCause();
+        while (cause != null) {
+            if (cause instanceof IllegalArgumentException ||
+                    cause instanceof IllegalStateException ||
+                    cause instanceof com.fasterxml.jackson.core.JsonParseException) {
+                log.warn("检测到异常链中的不可重试异常: {}", cause.getClass().getSimpleName());
+                return false;
+            }
+            cause = cause.getCause();
+        }
+
+        // 4. 检查异常消息中的 HTTP 状态码（如果有）
+        String exceptionMsg = e.getMessage();
+        if (exceptionMsg != null) {
+            // 客户端错误（400-499）不重试
+            if (exceptionMsg.contains("400") ||
+                    exceptionMsg.contains("401") ||
+                    exceptionMsg.contains("403") ||
+                    exceptionMsg.contains("404") ||
+                    exceptionMsg.contains("422")) {
+                log.warn("检测到 HTTP 客户端错误，不重试: {}", exceptionMsg);
+                return false;
+            }
+
+            // 服务器错误（500-599）可重试
+            if (exceptionMsg.contains("500") ||
+                    exceptionMsg.contains("502") ||
+                    exceptionMsg.contains("503") ||
+                    exceptionMsg.contains("504")) {
+                log.warn("检测到 HTTP 服务器错误，需要重试: {}", exceptionMsg);
+                return true;
+            }
+        }
+
+        // 5. 默认策略：其他异常也重试（保险起见）
+        log.warn("未知异常类型，采用重试策略: {}", e.getClass().getSimpleName());
+        return true;
     }
 
     /**

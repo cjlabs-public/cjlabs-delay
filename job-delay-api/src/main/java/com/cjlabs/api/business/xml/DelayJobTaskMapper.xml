@@ -14,7 +14,7 @@
         <result property="retryCount" column="retry_count"/>
         <result property="maxRetryCount" column="max_retry_count"/>
         <result property="msgBody" column="msg_body"/>
-        <result property="executeTime" column="execute_time"/>
+        <result property="executeTime" column="execute_time" typeHandler="com.cjlabs.db.mybatis.type.InstantEpochMilliTypeHandler"/>
         <result property="taskStatus" column="task_status"/>
         <result property="httpUrl" column="http_url"/>
         <result property="httpMethod" column="http_method"/>
@@ -25,9 +25,9 @@
         <result property="mqHeaders" column="mq_headers"/>
         <result property="delFlag" column="del_flag"/>
         <result property="createUser" column="create_user"/>
-        <result property="createDate" column="create_date"/>
+        <result property="createDate" column="create_date" typeHandler="com.cjlabs.db.mybatis.type.InstantEpochMilliTypeHandler"/>
         <result property="updateUser" column="update_user"/>
-        <result property="updateDate" column="update_date"/>
+        <result property="updateDate" column="update_date" typeHandler="com.cjlabs.db.mybatis.type.InstantEpochMilliTypeHandler"/>
 
     </resultMap>
 
@@ -50,9 +50,13 @@
     <!-- 按分片范围查询待执行任务（完全走索引） -->
     <!-- 索引：(task_status, execute_time, id) -->
     <select id="queryPendingTasksByShardRange" resultMap="DelayJobTaskResultMap">
-    <![CDATA[
-        SELECT <include refid="Base_Column_List"/>
-        FROM <include refid="Base_Table"/>
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        <include refid="Base_Table"/>
+
+        <![CDATA[
+
         WHERE task_status = 'PENDING'
           AND del_flag = 'NORMAL'
           AND execute_time <= #{now}
@@ -62,6 +66,7 @@
         ORDER BY execute_time ASC, id ASC
             LIMIT #{pageSize}
         OFFSET #{offset}
+
         ]]>
     </select>
 

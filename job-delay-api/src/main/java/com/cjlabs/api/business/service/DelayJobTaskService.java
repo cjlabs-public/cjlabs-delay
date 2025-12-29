@@ -123,7 +123,7 @@ public class DelayJobTaskService {
      * 分片 0: [0, 2.5M)
      * 分片 1: [2.5M, 5M)
      * 分片 2: [5M, 7.5M)
-     * 分片 3: [7.5M, 10M)
+     * 分片 3: [7.5M, 10M]  ← 注意：最后一个分片包括 maxId
      */
     public long[] getShardIdRange(int shardIndex, int shardTotal, long maxId) {
         if (maxId <= 0) {
@@ -136,12 +136,12 @@ public class DelayJobTaskService {
         long idStart = shardIndex * rangeSize;
         long idEnd = (shardIndex + 1) * rangeSize;
 
-        // 最后一个分片的结束是 maxId，防止超出
+        // 🔥 关键修改：最后一个分片的结束是 maxId + 1，确保包含 maxId
         if (shardIndex == shardTotal - 1) {
-            idEnd = maxId;
+            idEnd = maxId + 1;  // ✅ 修改为 maxId + 1
         }
 
-        log.debug("分片 {}/{} ID 范围: [{}, {}]", shardIndex, shardTotal, idStart, idEnd);
+        log.debug("分片 {}/{} ID 范围: [{}, {})", shardIndex, shardTotal, idStart, idEnd);
 
         return new long[]{idStart, idEnd};
     }
